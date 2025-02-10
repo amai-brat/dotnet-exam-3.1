@@ -1,14 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {Route, Routes} from "react-router-dom";
+import AuthPage from "./pages/Auth/AuthPage.jsx";
+import RoomPage from "./pages/Room/RoomPage.jsx";
 
-function App() {
-
-  return (
-    <>
-    </>
-  )
+const App = () => {
+    return (
+        <>
+          <Routes>
+            <Route path="" element={<RoomPage/>}/>
+            <Route path="login" element={<AuthPage formType="login"/>}/>
+            <Route path="register" element={<AuthPage formType="register"/>}/>
+          </Routes>
+        </>
+    )
 }
 
 export default App

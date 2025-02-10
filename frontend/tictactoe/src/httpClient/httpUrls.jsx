@@ -1,0 +1,1 @@
+export const authServiceUrl = "http://localhost:8082/";
