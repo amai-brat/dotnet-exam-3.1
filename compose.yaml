@@ -1,0 +1,42 @@
+services: 
+  postgresql:
+    image: postgres
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+  
+  rabbitmq:
+    image: rabbitmq:3-alpine
+    ports:
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+  
+#  main-service:
+#    build:
+#      context: .
+#      dockerfile: backend/TicTacToe.MainService.API/Dockerfile
+#    ports:
+#      - "8080:8080"
+#
+#  rating-service:
+#    build:
+#      context: .
+#      dockerfile: backend/TicTacToe.RatingService/Dockerfile
+#    ports:
+#      - "8081:8081"
+#  
+#  auth-service:
+#    build:
+#      context: .
+#      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
+#    ports:
+#      - "8082:8082"
+  
+
