@@ -6,4 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Generic.Mediator\Generic.Mediator.csproj" />
+      <ProjectReference Include="..\TicTacToe.MainService.Domain\TicTacToe.MainService.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
