@@ -1,9 +1,9 @@
 import {useState} from "react";
 import {validateUserLoginForm} from "./AuthFormValidators.jsx";
-import {authServiceUrl} from "../../httpClient/httpUrls.jsx";
 import InputWithError from "../../components/input/InputWithError.jsx";
 import "./styles/LogRegForm.css";
 import {useNavigate} from "react-router-dom";
+import {authService} from "../../services/auth.service.jsx";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -23,13 +23,7 @@ const LoginForm = () => {
         }
 
         try {
-            const response = await fetch(authServiceUrl + "login", {
-                method: "POST",
-                body: JSON.stringify({
-                    Login: loginData.login,
-                    Password: loginData.password,
-                }),
-            })
+            const response = await authService.login(loginData);
 
             if (response.ok) {
                 setSuccess({message: "Успешный вход"})

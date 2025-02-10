@@ -1,8 +1,8 @@
 import {useState} from "react";
-import {authServiceUrl} from "../../httpClient/httpUrls.jsx";
 import {validateUserRegisterForm} from "./AuthFormValidators.jsx";
 import InputWithError from "../../components/input/InputWithError.jsx";
 import {useNavigate} from "react-router-dom";
+import {authService} from "../../services/auth.service.jsx";
 
 const RegisterForm = () => {
     const navigate = useNavigate();
@@ -23,14 +23,7 @@ const RegisterForm = () => {
         }
         
         try {
-            const response = await fetch(authServiceUrl + "register", {
-                method: "POST",
-                body: JSON.stringify({
-                    Login: registerData.login,
-                    Password: registerData.password,
-                    PasswordConfirm: registerData.passwordConfirm
-                }),
-            })
+            const response = await authService.register(registerData);
             
             if (response.ok) {
                 setSuccess({message: "Успешная регистрация"})
