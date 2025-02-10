@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.AuthService", "TicTacToe.AuthService\TicTacToe.AuthService.csproj", "{24F57687-C69E-43FF-A722-4EE3E3045623}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.MainService.API", "TicTacToe.MainService.API\TicTacToe.MainService.API.csproj", "{C5E69C54-46B2-4AAD-9F8C-4D3FFBDAC8B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.RatingService", "TicTacToe.RatingService\TicTacToe.RatingService.csproj", "{24489C33-CC1C-4383-9BF3-202A265B1B28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.MainService.Domain", "TicTacToe.MainService.Domain\TicTacToe.MainService.Domain.csproj", "{31A83033-031A-401D-884A-CCA442E4143C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.MainService.Application", "TicTacToe.MainService.Application\TicTacToe.MainService.Application.csproj", "{12A6C690-E810-4373-9221-B46FFB73C8B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe.MainService.Infrastructure", "TicTacToe.MainService.Infrastructure\TicTacToe.MainService.Infrastructure.csproj", "{55B5CF20-441B-4280-8348-C735EEDD52F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generic.Mediator", "Generic.Mediator\Generic.Mediator.csproj", "{C6112187-42F3-4813-BCB5-105B729F720A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24F57687-C69E-43FF-A722-4EE3E3045623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F57687-C69E-43FF-A722-4EE3E3045623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F57687-C69E-43FF-A722-4EE3E3045623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F57687-C69E-43FF-A722-4EE3E3045623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E69C54-46B2-4AAD-9F8C-4D3FFBDAC8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E69C54-46B2-4AAD-9F8C-4D3FFBDAC8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E69C54-46B2-4AAD-9F8C-4D3FFBDAC8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E69C54-46B2-4AAD-9F8C-4D3FFBDAC8B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24489C33-CC1C-4383-9BF3-202A265B1B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24489C33-CC1C-4383-9BF3-202A265B1B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24489C33-CC1C-4383-9BF3-202A265B1B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24489C33-CC1C-4383-9BF3-202A265B1B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A83033-031A-401D-884A-CCA442E4143C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A83033-031A-401D-884A-CCA442E4143C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A83033-031A-401D-884A-CCA442E4143C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A83033-031A-401D-884A-CCA442E4143C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A6C690-E810-4373-9221-B46FFB73C8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A6C690-E810-4373-9221-B46FFB73C8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A6C690-E810-4373-9221-B46FFB73C8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A6C690-E810-4373-9221-B46FFB73C8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B5CF20-441B-4280-8348-C735EEDD52F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B5CF20-441B-4280-8348-C735EEDD52F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B5CF20-441B-4280-8348-C735EEDD52F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B5CF20-441B-4280-8348-C735EEDD52F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6112187-42F3-4813-BCB5-105B729F720A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6112187-42F3-4813-BCB5-105B729F720A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6112187-42F3-4813-BCB5-105B729F720A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6112187-42F3-4813-BCB5-105B729F720A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
