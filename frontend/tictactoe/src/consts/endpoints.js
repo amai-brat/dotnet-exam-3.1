@@ -1,6 +1,6 @@
-export const MAIN_BASE_URL = "http://localhost:8080";
-export const AUTH_BASE_URL = "http://localhost:8082"
-export const RATING_BASE_URL = "http://localhost:8081"
+export const MAIN_BASE_URL = "http://localhost:8080" // "http://main:8080"
+export const AUTH_BASE_URL = "http://localhost:8082" // "http://auth:8082"
+export const RATING_BASE_URL = "http://localhost:8081" // "http://rating:8081"
 
 export const ENDPOINTS = {
   GAME_HUB: MAIN_BASE_URL + "/game",

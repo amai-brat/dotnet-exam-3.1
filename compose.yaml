@@ -30,9 +30,10 @@ services:
       - mongo-data:/data/mongo
 
   main-service:
+    hostname: main
     build:
-      context: .
-      dockerfile: backend/TicTacToe.MainService.API/Dockerfile
+      context: ./backend
+      dockerfile: ./TicTacToe.MainService.API/Dockerfile
     ports:
       - "8080:8080"
     environment:
@@ -51,8 +52,8 @@ services:
   rating-service:
     hostname: rating
     build:
-      context: .
-      dockerfile: backend/TicTacToe.RatingService/Dockerfile
+      context: ./backend
+      dockerfile: ./TicTacToe.RatingService/Dockerfile
     ports:
       - "8081:8081"
     environment:
@@ -67,9 +68,10 @@ services:
       - Database:CollectionName="Rating"
  
   auth-service:
+    hostname: auth
     build:
-      context: .
-      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
+      context: ./backend
+      dockerfile: ./TicTacToe.AuthService/Dockerfile
     ports:
       - "8082:8082"
     environment:
@@ -86,7 +88,7 @@ services:
   
   frontend:
     build: 
-      context: ./frontend/ticactoe
+      context: ./frontend/tictactoe/
       dockerfile: ./Dockerfile
     ports:
       - "5173:5173"
