@@ -1,8 +1,8 @@
 using System.Reflection;
 using Generic.Mediator.DependencyInjectionExtensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TicTacToe.AuthService.Options;
 using TicTacToe.AuthService.Extensions;
+using Migrator = TicTacToe.AuthService.DataAccess.Migrator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +22,8 @@ builder.Services.AddMasstransitRabbitMq(
 
 builder.Services.AddMediator(Assembly.GetExecutingAssembly());
 
-builder.Services.AddCors("Frontend", "http://localhost:5173");
+builder.Services.AddCors("Frontend", builder.Configuration.GetSection("Frontend")["Url"] 
+                                     ?? throw new InvalidOperationException("Frontend:Url is missing"));
 
 var app = builder.Build();
 
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+await Migrator.MigrateAsync(app.Services);
 
 app.UseHttpsRedirection();
 
