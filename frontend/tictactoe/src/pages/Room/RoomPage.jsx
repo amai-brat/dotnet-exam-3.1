@@ -51,6 +51,9 @@ export const RoomPage = () => {
             console.log("My turn")
             setIsMyTurn(true);
           });
+          connection.on("GameStarted", (isStarted) => {
+            setCanJoin(!isStarted);
+          })
           connection.on('ResultAnnouncement', (message) => {
             console.log(message)
           })
@@ -62,6 +65,18 @@ export const RoomPage = () => {
       }
     }
   
+    function joinRoom() {
+      if (connection?.state === signalR.HubConnectionState.Connected) {
+        connection.invoke('JoinRoom', +id).catch((err) => {
+          console.error(err.toString())
+        });
+      } else {
+        setTimeout(joinRoom, 200);
+      }
+    }
+
+    joinRoom();
+
     return () => {
       connection?.stop();
     };
@@ -77,18 +92,10 @@ export const RoomPage = () => {
   }
 
   const onJoinClick = () => {
-    function joinGame() {
-      if (connection?.state === signalR.HubConnectionState.Connected) {
-        connection.invoke('JoinGame', +id).catch((err) => {
-          setCanJoin(false);
-          console.error(err.toString())
-        });
-      } else {
-        setTimeout(joinGame, 200);
-      }
-    }
+    connection.invoke('JoinGame', +id).catch((err) => {
+      console.error(err.toString())
+    });
 
-    joinGame();
     setCanJoin(false);
   }
 

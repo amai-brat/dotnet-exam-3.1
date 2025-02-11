@@ -22,6 +22,39 @@ public class GameHub(
 {
     private readonly TimeSpan _gameRefreshInterval = TimeSpan.FromSeconds(5);
     private readonly ConcurrentDictionary<int, Room> _rooms = rooms;
+
+    public async Task JoinRoom(int gameId)
+    {
+        var result = await mediator.Send(new GetGameQuery(gameId));
+        if (result.IsFailed)
+        {
+            await SendErrorToCaller(result.Errors.Select(x => x.Message).ToList());
+        }
+        if (result.Value.Game.Status == GameStatus.Closed)
+        {
+            await SendErrorToCaller(["Game is closed"]);
+        }
+        
+        var room = _rooms.GetOrAdd(gameId, _ => new Room
+        {
+            Id = gameId,
+            Connections = [],
+            IsStarted = false,
+            MaxRating = result.Value.Game.MaxRating
+        });
+        
+        room.Connections.Add(Context.ConnectionId);
+        
+        for (var i = 0; i < room.Connections.Count; i++)
+        {
+            Console.WriteLine($"room: {room.Id}: {i}: {room.Connections[i]}");
+        }
+
+        if (room.IsStarted)
+        {
+            await Clients.Caller.SendAsync("GameStarted", true);
+        }
+    }
     
     public async Task JoinGame(int gameId)
     {
@@ -35,38 +68,53 @@ public class GameHub(
             await SendErrorToCaller(["Game is closed"]);
         }
 
-        
         var room = _rooms.GetOrAdd(gameId, _ => new Room
         {
             Id = gameId,
             Connections = [],
             MaxRating = result.Value.Game.MaxRating
         });
-        
-        room.Connections.Add(Context.ConnectionId);
-        
-        for (var i = 0; i < room.Connections.Count; i++)
+
+        if (room.Player1 is not null && room.Player2 is not null) return;
+
+        // TODO: auth
+        if (room.Player1 is null)
         {
-            Console.WriteLine($"room: {room.Id}: {i}: {room.Connections[i]}");
-        }
-        switch (room.Connections.Count)
+            room.Player1 = new UserInfo(Context.ConnectionId, 0, "Player 1");
+            logger.LogInformation("Player 1 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
+        } 
+        else if (room.Player2 is null)
         {
-            // TODO: auth
-            case 1:
-                room.Player1 = new UserInfo(Context.ConnectionId, 0, "Player 1");
-                logger.LogInformation("Player 1 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
-                break;
-            case 2:
-                room.Turn = Turn.FirstPlayer;
-                await Clients.Client(room.Player1!.ConnectionId).SendAsync("Turn");
-                
-                room.Player2 = new UserInfo(Context.ConnectionId, 0, "Player 2");
-                logger.LogInformation("Player 2 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
-                break;
-            default:
-                await SendRefreshGridToRoom(room);
-                break;
+            room.Player2 = new UserInfo(Context.ConnectionId, 0, "Player 2");
+            logger.LogInformation("Player 2 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
         }
+
+        if (room.Player1 is not null && room.Player2 is not null)
+        {
+            room.Turn = Turn.FirstPlayer;
+            room.IsStarted = true;
+            await Clients.Clients(room.Connections).SendAsync("GameStarted", true);
+            await Clients.Client(room.Player1!.ConnectionId).SendAsync("Turn");
+        }
+        
+        // switch (room.Connections.Count)
+        // {
+        //    
+        //     case 1:
+        //         room.Player1 = new UserInfo(Context.ConnectionId, 0, "Player 1");
+        //         logger.LogInformation("Player 1 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
+        //         break;
+        //     case 2:
+        //         room.Turn = Turn.FirstPlayer;
+        //         await Clients.Client(room.Player1!.ConnectionId).SendAsync("Turn");
+        //         
+        //         room.Player2 = new UserInfo(Context.ConnectionId, 0, "Player 2");
+        //         logger.LogInformation("Player 2 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
+        //         break;
+        //     default:
+        //         await SendRefreshGridToRoom(room);
+        //         break;
+        // }
     }
 
     public async Task SendTurn(int idx, int jdx)
@@ -144,6 +192,8 @@ public class GameHub(
             room.Player1 = room.Player2;
             room.Player2 = null;
             room.ResetGrid();
+            room.IsStarted = false;
+            await Clients.Clients(room.Connections).SendAsync("GameStarted", false);
             await SendRefreshGridToRoom(room);
         }
         
@@ -151,6 +201,8 @@ public class GameHub(
         {
             room.Player2 = null;
             room.ResetGrid();
+            room.IsStarted = false;
+            await Clients.Clients(room.Connections).SendAsync("GameStarted", false);
             await SendRefreshGridToRoom(room);
         }
         
@@ -198,7 +250,8 @@ public class Room
     public List<string> Connections { get; set; } = [];
     public UserInfo? Player1 { get; set; }
     public UserInfo? Player2 { get; set; }
-    
+
+    public bool IsStarted { get; set; }
     public int MaxRating { get; set; }
     public Turn Turn { get; set; }
 
