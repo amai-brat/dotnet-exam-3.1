@@ -5,13 +5,15 @@ namespace TicTacToe.MainService.Infrastructure.Data.Repositories;
 
 public class UserRepository(AppDbContext dbContext) : IUserRepository
 {
-    public Task<int> CreateAsync(User user)
+    public async Task<int> CreateAsync(User user)
     {
-        throw new NotImplementedException();
+        var entry = await dbContext.Users.AddAsync(user);
+        return entry.Entity.Id;
     }
 
-    public Task<User?> GetByIdAsync(int id)
+    public async Task<User?> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var user = await dbContext.Users.FindAsync(id);
+        return user;
     }
 }

@@ -1,11 +1,11 @@
-import {mainServiceUrl} from "../httpClient/httpUrls.jsx";
+import {MAIN_BASE_URL} from "../consts/endpoints";
 
 export const userService = {
     getPersonalInfo
 };
 
 async function getPersonalInfo(){
-    return await fetch(mainServiceUrl + "personal",{
+    return await fetch(MAIN_BASE_URL + "/personal",{
         method: "GET",
         credentials: "include"
     });

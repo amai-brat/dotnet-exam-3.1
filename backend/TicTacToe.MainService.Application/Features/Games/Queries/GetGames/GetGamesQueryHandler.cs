@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentResults;
 using TicTacToe.MainService.Application.Cqrs.Queries;
 using TicTacToe.MainService.Application.Repositories;
 
@@ -9,7 +10,7 @@ public class GetGamesQueryHandler(
     IMapper mapper
     ): IQueryHandler<GetGamesQuery, GetGamesDto>
 {
-    public async Task<GetGamesDto> Handle(GetGamesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetGamesDto>> Handle(GetGamesQuery request, CancellationToken cancellationToken)
     {
         var games = await gameRepository.GetGamesOrderedByDateAndStatusAsync(request.Count, request.Page);
         var dtos = mapper.Map<List<GameDto>>(games);

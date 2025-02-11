@@ -1,8 +1,10 @@
-using MassTransit;
+using Generic.Mediator.DependencyInjectionExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TicTacToe.MainService.Application.Helpers;
 using TicTacToe.MainService.Application.Repositories;
+using TicTacToe.MainService.Application.Services;
 using TicTacToe.MainService.Infrastructure.Data;
 using TicTacToe.MainService.Infrastructure.Data.Repositories;
 using TicTacToe.MainService.Infrastructure.Profiles;
@@ -13,8 +15,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddRepositories();
+        services.AddScoped<ITicTacToeGame, TicTacToeGame>();
         
+        services.AddRepositories();
+        services.AddMediator(AssemblyReference.Assembly);
+        services.AddHttpContextAccessor();
+
         services.AddAutoMapper(conf =>
         {
             conf.AddProfile<UserProfile>();

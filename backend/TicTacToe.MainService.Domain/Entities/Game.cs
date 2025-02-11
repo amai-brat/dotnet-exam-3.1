@@ -3,7 +3,7 @@ namespace TicTacToe.MainService.Domain.Entities;
 public class Game
 {
     public int Id { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     public int CreatedById { get; set; }
     public User CreatedBy { get; set; } = null!;

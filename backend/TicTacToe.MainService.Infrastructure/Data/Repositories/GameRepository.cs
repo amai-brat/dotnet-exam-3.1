@@ -1,17 +1,33 @@
+using Microsoft.EntityFrameworkCore;
 using TicTacToe.MainService.Application.Repositories;
 using TicTacToe.MainService.Domain.Entities;
 
 namespace TicTacToe.MainService.Infrastructure.Data.Repositories;
 
-public class GameRepository : IGameRepository
+public class GameRepository(AppDbContext dbContext) : IGameRepository
 {
-    public Task<List<Game>> GetGamesOrderedByDateAndStatusAsync(int count, int page)
+    public async Task<List<Game>> GetGamesOrderedByDateAndStatusAsync(int count, int page)
     {
-        throw new NotImplementedException();
+        var games = await dbContext.Games
+            .OrderByDescending(x => x.CreatedAt)
+            .ThenBy(x => x.Status)
+            .Include(x => x.CreatedBy)
+            .Skip(count * (page - 1))
+            .Take(count)
+            .ToListAsync();
+
+        return games;
     }
 
-    public Task<Game> CreateAsync(Game game)
+    public async Task<Game?> GetGameByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var game = await dbContext.Games.FindAsync(id);
+        return game;
+    }
+
+    public async Task<Game> CreateAsync(Game game)
+    {
+        var entry = await dbContext.Games.AddAsync(game);
+        return entry.Entity;
     }
 }

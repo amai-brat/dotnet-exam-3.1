@@ -1,4 +1,4 @@
-import {authServiceUrl} from "../httpClient/httpUrls.jsx";
+import {AUTH_BASE_URL} from "../consts/endpoints";
 
 export const authService = {
     login,
@@ -7,7 +7,7 @@ export const authService = {
 };
 
 async function login(loginData){
-    return await fetch(authServiceUrl + "login", {
+    return await fetch(AUTH_BASE_URL + "/login", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -22,7 +22,7 @@ async function login(loginData){
 }
 
 async function register(registerData){
-    return await fetch(authServiceUrl + "register", {
+    return await fetch(AUTH_BASE_URL + "/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentResults;
 using TicTacToe.MainService.Application.Cqrs.Commands;
 using TicTacToe.MainService.Application.Repositories;
 using TicTacToe.MainService.Domain.Entities;
@@ -11,7 +12,7 @@ public class CreateUserCommandHandler(
     IUnitOfWork unitOfWork
     ) : ICommandHandler<CreateUserCommand, CreateUserDto>
 {
-    public async Task<CreateUserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CreateUserDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var user = mapper.Map<User>(request);
         await userRepository.CreateAsync(user);

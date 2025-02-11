@@ -12,6 +12,7 @@ public class GameDto
     public int Id { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public UserDto CreatedBy { get; set; } = null!;
+    public int MaxRating { get; set; }
 
     public GameStatus Status { get; set; }
 }

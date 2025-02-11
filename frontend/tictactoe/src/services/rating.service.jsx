@@ -1,4 +1,4 @@
-import {ratingServiceUrl} from "../httpClient/httpUrls.jsx";
+import {RATING_BASE_URL} from "../consts/endpoints";
 
 export const ratingService = {
     getPersonalRating,
@@ -6,14 +6,14 @@ export const ratingService = {
 };
 
 async function getPersonalRating(){
-    return await fetch(ratingServiceUrl + "personal", {
+    return await fetch(RATING_BASE_URL + "/personal", {
         method: "GET",
         credentials: "include",
     });
 }
 
 async function getGlobalRating(gameSettings){
-    return await fetch(ratingServiceUrl + "global", {
+    return await fetch(RATING_BASE_URLServiceUrl + "/global", {
         method: "GET",
         credentials: "include"
     });
