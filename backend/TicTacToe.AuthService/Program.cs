@@ -17,6 +17,9 @@ builder.Services.AddServices(builder.Configuration);
 builder.Services.AddDbContext(
     builder.Configuration.GetSection("Database").Get<DbOptions>()!);
 
+builder.Services.AddMasstransitRabbitMq(
+    builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()!);
+
 builder.Services.AddMediator(Assembly.GetExecutingAssembly());
 
 builder.Services.AddCors("Frontend", "http://localhost:5173");
