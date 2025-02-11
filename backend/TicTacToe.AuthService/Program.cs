@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddServices(builder.Configuration);
+builder.Services.AddValidators();
 
 builder.Services.AddDbContext(
     builder.Configuration.GetSection("Database").Get<DbOptions>()!);
