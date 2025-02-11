@@ -9,9 +9,11 @@ services:
       - postgresql-data:/var/lib/postgresql/data
   
   rabbitmq:
-    image: rabbitmq:3-alpine
+    image: rabbitmq:3-management-alpine
+    hostname: rabbit
     ports:
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     environment:
@@ -38,5 +40,10 @@ services:
 #      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
 #    ports:
 #      - "8082:8082"
+#    depends_on:
+#      - rabbitmq
+#      - postgresql
   
-
+volumes:
+  postgresql-data:
+  rabbitmq-data:

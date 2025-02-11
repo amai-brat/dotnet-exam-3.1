@@ -12,7 +12,7 @@ public static class AddMasstransitExtension
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
-                cfg.Host(options.Hostname, 15672, "/", h =>
+                cfg.Host(options.Hostname, 5672, "/", h =>
                 {
                     h.Username(options.Username);
                     h.Password(options.Password);

@@ -31,7 +31,7 @@ const RegisterForm = () => {
                     navigate("/login")
                 }, 1000);
             }else{
-                setErrors({message: response.message});
+                setErrors({message: await response.text()});
             }
         }catch(err) {
             setErrors({message: "Что-то пошло не так"});
