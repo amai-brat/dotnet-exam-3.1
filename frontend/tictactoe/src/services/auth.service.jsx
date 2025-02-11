@@ -2,10 +2,11 @@ import {authServiceUrl} from "../httpClient/httpUrls.jsx";
 
 export const authService = {
     login,
-    register
+    register,
+    exit
 };
 
-const login = async (loginData) => {
+async function login(loginData){
     return await fetch(authServiceUrl + "login", {
         method: "POST",
         headers: {
@@ -18,7 +19,7 @@ const login = async (loginData) => {
     })
 }
 
-const register = async (registerData) => {
+async function register(registerData){
     return await fetch(authServiceUrl + "register", {
         method: "POST",
         headers: {
@@ -30,4 +31,8 @@ const register = async (registerData) => {
             PasswordConfirm: registerData.passwordConfirm
         }),
     })
+}
+
+function exit(){
+    
 }

@@ -1,0 +1,56 @@
+.rating-block {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.rating-block-modal{
+    max-height: 80vh;
+    overflow: auto;
+    width: 800px;
+}
+
+.rating-block-modal table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.rating-block-rate{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating-block-rate button{
+    width: 200px;
+    padding: 6px;
+    background-color: dodgerblue;
+    border-color: dodgerblue;
+    border-radius: 4px;
+    margin: 1px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.rating-block-personal{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
