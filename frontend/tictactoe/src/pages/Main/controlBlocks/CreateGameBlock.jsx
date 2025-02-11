@@ -17,11 +17,12 @@ const CreateGameBlock = ({ user }) => {
             if (response.ok) {
                 const roomId = await response.json();
                 navigate(`/game/${roomId}`);
+            }else if(response.status === 401){
+                navigate(`/login`);
             }
         }catch (err) {
             console.error(err);
         }
-
     }
     
     const handleInputChange = (e) => {

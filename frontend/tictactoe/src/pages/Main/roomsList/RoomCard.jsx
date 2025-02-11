@@ -5,7 +5,7 @@ const RoomCard = ({ room, userRating }) => {
     const navigate = useNavigate();
     const canJoin = userRating <= room.ratingUp && room.status === "active";
     const handleJoin = () => {
-        navigate(`/game/${room.id}`);
+        navigate(`/room/${room.id}`);
     }
 
     return (
