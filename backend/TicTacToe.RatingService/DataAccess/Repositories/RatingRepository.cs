@@ -8,7 +8,7 @@ public class RatingRepository(AppDbContext appDbContext): IRatingRepository
 {
 
     public async Task<Rating?> GetByUserIdAsync(int userId) =>
-        await appDbContext.Rating.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+        await appDbContext.Rating.Find(x => x.Id == userId).FirstOrDefaultAsync();
     
     public async Task<List<Rating>> GetAllRatingsAsync() => 
         await appDbContext.Rating.Find(x => true).ToListAsync();

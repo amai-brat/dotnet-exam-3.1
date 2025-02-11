@@ -11,7 +11,7 @@ public class CreateNewUserRatingCommandHandler(
     {
         await ratingRepository.InsertAsync(new Entities.Rating()
         {
-            UserId = request.User.Id, 
+            Id = request.User.Id, 
             Login = request.User.Username,
             Score = 0
         });
