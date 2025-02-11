@@ -1,0 +1,16 @@
+.grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.gridCell {
+  padding: 5px;
+  border: 2px solid gray;
+  border-radius: 1px;
+  display: inline-flex;
+}

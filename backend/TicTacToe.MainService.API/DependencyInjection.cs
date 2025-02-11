@@ -31,6 +31,16 @@ public static class DependencyInjection
 
         return services;
     }
-    
-    
+
+    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, params string[] origins)
+    {
+        services.AddCors(options =>
+            options.AddPolicy("SPA", builder =>
+                    builder.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins(origins)
+                        .AllowCredentials()));
+
+        return services;
+    }
 }
