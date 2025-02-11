@@ -9,8 +9,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddMediator(this IServiceCollection services, params Assembly[] handlersAssemblies)
     {
         var helper = new ReflectionHelper(handlersAssemblies);
-        services.AddHandlers(helper.RequestHandlers, ServiceLifetime.Transient);
-        services.AddTransient<IMediator, global::Generic.Mediator.Mediator>();
+        services.AddHandlers(helper.RequestHandlers, ServiceLifetime.Scoped);
+        services.AddScoped<IMediator, global::Generic.Mediator.Mediator>();
 
         return services;
     }

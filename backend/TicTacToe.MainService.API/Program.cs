@@ -1,44 +1,47 @@
+using System.Collections.Concurrent;
+using TicTacToe.MainService;
+using TicTacToe.MainService.Consts;
+using TicTacToe.MainService.Hubs;
+using TicTacToe.MainService.Infrastructure;
+using TicTacToe.MainService.Infrastructure.Data;
+using TicTacToe.MainService.Options;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddSignalR();
+builder.Services.AddCorsPolicy(builder.Configuration.GetSection("Frontend")["Url"] 
+                               ?? throw new InvalidOperationException("Frontend:Url not configured"));
+builder.Services.AddJwtAuthentication(
+    builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!);
+builder.Services.AddAuthorization();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddMassTransitRabbitMq(builder.Configuration);
+builder.Services.AddKeyedSingleton<ConcurrentDictionary<int, Room>>(KeyedServices.GameRooms);
+builder.Services.AddHttpClient("Rating", httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection("RatingService")["Url"]
+                                     ?? throw new InvalidOperationException());
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+await Migrator.MigrateAsync(app.Services);
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
-
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseCors("SPA");
+app.MapHub<GameHub>("/game");
+app.MapControllers();
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
