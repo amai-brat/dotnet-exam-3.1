@@ -2,8 +2,10 @@ using System.Collections.Concurrent;
 using System.Text.Json;
 using Generic.Mediator;
 using MassTransit;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using TicTacToe.MainService.Application.Features.Games.Queries.GetGame;
+using TicTacToe.MainService.Application.Helpers;
 using TicTacToe.MainService.Application.Services;
 using TicTacToe.MainService.Consts;
 using TicTacToe.MainService.Domain.Entities;
@@ -11,7 +13,7 @@ using TicTacToe.Shared.Contracts;
 
 namespace TicTacToe.MainService.Hubs;
 
-// TODO: [Authorize]
+[Authorize]
 public class GameHub(
     [FromKeyedServices(KeyedServices.GameRooms)] ConcurrentDictionary<int, Room> rooms,
     IBus bus,
@@ -76,16 +78,17 @@ public class GameHub(
         });
 
         if (room.Player1 is not null && room.Player2 is not null) return;
-
-        // TODO: auth
+        
+        
+        var userInfo = new UserInfo(Context.ConnectionId, Context.User!.FindUserId(), Context.User!.FindUsername());
         if (room.Player1 is null)
         {
-            room.Player1 = new UserInfo(Context.ConnectionId, 0, "Player 1");
+            room.Player1 = userInfo;
             logger.LogInformation("Player 1 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
         } 
         else if (room.Player2 is null)
         {
-            room.Player2 = new UserInfo(Context.ConnectionId, 0, "Player 2");
+            room.Player2 = userInfo;
             logger.LogInformation("Player 2 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
         }
 
@@ -96,25 +99,6 @@ public class GameHub(
             await Clients.Clients(room.Connections).SendAsync("GameStarted", true);
             await Clients.Client(room.Player1!.ConnectionId).SendAsync("Turn");
         }
-        
-        // switch (room.Connections.Count)
-        // {
-        //    
-        //     case 1:
-        //         room.Player1 = new UserInfo(Context.ConnectionId, 0, "Player 1");
-        //         logger.LogInformation("Player 1 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
-        //         break;
-        //     case 2:
-        //         room.Turn = Turn.FirstPlayer;
-        //         await Clients.Client(room.Player1!.ConnectionId).SendAsync("Turn");
-        //         
-        //         room.Player2 = new UserInfo(Context.ConnectionId, 0, "Player 2");
-        //         logger.LogInformation("Player 2 of room {RoomId} - {ConnectionId}", gameId, Context.ConnectionId);
-        //         break;
-        //     default:
-        //         await SendRefreshGridToRoom(room);
-        //         break;
-        // }
     }
 
     public async Task SendTurn(int idx, int jdx)
@@ -159,10 +143,13 @@ public class GameHub(
         }
         
         
-        var ratingPoints = ticTacToeGame.GetRatingPoints(result.Value, 
+        var matchEnded = ticTacToeGame.GetMatchResult(result.Value, 
             room.Player1!.UserId, 
             room.Player2!.UserId);
-        await bus.Publish(ratingPoints.Value);
+        if (matchEnded.IsSuccess)
+        {
+            await bus.Publish(matchEnded.Value);
+        }
         await Clients.Clients(room.Connections)
             .SendAsync("ResultAnnouncement", 
                 GetResultAnnouncementMessage(result.Value, room.Player1, room.Player2));
@@ -252,6 +239,7 @@ public class Room
     public UserInfo? Player2 { get; set; }
 
     public bool IsStarted { get; set; }
+    // TODO: maxrating
     public int MaxRating { get; set; }
     public Turn Turn { get; set; }
 

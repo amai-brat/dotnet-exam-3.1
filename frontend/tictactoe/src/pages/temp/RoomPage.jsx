@@ -5,9 +5,9 @@ import RatingBlock from "./controlBlocks/RatingBlock.jsx";
 import CreateGameBlock from "./controlBlocks/CreateGameBlock.jsx";
 import RoomsList from "./roomsList/RoomsList.jsx";
 import {ratingService} from "../../services/rating.service.jsx";
-import "./styles/MainPage.css"; 
+import "./styles/RoomPage.css"; 
 
-const MainPage = () => {
+const RoomPage = () => {
     const [user, setUser] = useState(undefined);
     
     const getPersonalInfo = async () => {
@@ -60,4 +60,4 @@ const MainPage = () => {
     )
 }
 
-export default MainPage;
+export default RoomPage;

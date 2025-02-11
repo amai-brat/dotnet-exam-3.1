@@ -18,7 +18,8 @@ public class JwtService(IOptionsMonitor<JwtOptions> jwtOptionsMonitor): IJwtServ
         var claims = new List<Claim>
         {
             new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new (ClaimTypes.NameIdentifier, user.Id.ToString())
+            new (ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new (ClaimTypes.Name, user.Login)
         };
             
         var jwt = CreateJwtToken(claims);

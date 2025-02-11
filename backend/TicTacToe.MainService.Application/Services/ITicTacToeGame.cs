@@ -6,7 +6,7 @@ namespace TicTacToe.MainService.Application.Services;
 public interface ITicTacToeGame
 {
     Result<GameResult> GetGameResult(int[,] grid);
-    Result<RatingPoints> GetRatingPoints(GameResult gameResult, int firstUserid, int secondUserid);
+    Result<MatchEnded> GetMatchResult(GameResult gameResult, int firstUserId, int secondUserId);
 }
 
 public enum GameResult

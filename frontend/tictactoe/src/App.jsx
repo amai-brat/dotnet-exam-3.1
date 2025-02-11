@@ -2,9 +2,7 @@ import './App.css'
 import { Link, Route, Routes } from "react-router"
 import { RoomPage } from './pages/Room/RoomPage'
 import { MainPage } from './pages/Main/MainPage'
-import {Route, Routes} from "react-router-dom";
 import AuthPage from "./pages/Auth/AuthPage.jsx";
-import RoomPage from "./pages/Room/RoomPage.jsx";
 
 const App = () => {
     return (
@@ -18,4 +16,5 @@ const App = () => {
           </Routes>
         </>
     )
+}
 export default App

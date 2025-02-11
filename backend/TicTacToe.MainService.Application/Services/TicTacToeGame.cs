@@ -72,26 +72,22 @@ public class TicTacToeGame : ITicTacToeGame
             : GameResult.Continue;
     }
 
-    public Result<RatingPoints> GetRatingPoints(GameResult gameResult, int firstUserid, int secondUserid)
+    public Result<MatchEnded> GetMatchResult(GameResult gameResult, int firstUserId, int secondUserId)
     {
         return gameResult switch
         {
-            GameResult.FirstPlayerWon => new RatingPoints
+            GameResult.FirstPlayerWon => new MatchEnded
             {
-                FirstPlayerPoints = new PlayerPoints(firstUserid, 3),
-                SecondPlayerPoints = new PlayerPoints(secondUserid, -1)
+                WinnerId = firstUserId,
+                LooserId = secondUserId,
             },
-            GameResult.SecondPlayerWon => new RatingPoints
+            GameResult.SecondPlayerWon => new MatchEnded
             {
-                FirstPlayerPoints = new PlayerPoints(firstUserid, -1),
-                SecondPlayerPoints = new PlayerPoints(secondUserid, 3)
+                WinnerId = secondUserId,
+                LooserId = firstUserId,
             },
-            GameResult.Draw => new RatingPoints
-            {
-                FirstPlayerPoints = new PlayerPoints(firstUserid, 0),
-                SecondPlayerPoints = new PlayerPoints(secondUserid, 0)
-            },
-            _ => throw new InvalidOperationException("Game is not finished")
+            GameResult.Draw => Result.Fail("Draw"),
+            _ => Result.Fail("Game is not finished")
         };
     }
 }

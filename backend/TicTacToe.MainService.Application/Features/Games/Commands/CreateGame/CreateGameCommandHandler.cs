@@ -23,18 +23,16 @@ public class CreateGameCommandHandler(
     
     public async Task<Result<CreateGameDto>> Handle(CreateGameCommand request, CancellationToken cancellationToken)
     {
-        // TODO: when auth configured
-        // var userId = _httpContext.FindUserId();
-        // var user = await userRepository.GetByIdAsync(userId);
-        // if (user is null)
-        // {
-        //     throw new NotFoundException("User not found");
-        // }
-        //
+        var userId = _httpContext.User.FindUserId();
+        var user = await userRepository.GetByIdAsync(userId);
+        if (user is null)
+        {
+            throw new NotFoundException("User not found");
+        }
+        
         var game = mapper.Map<Game>(request);
         game.CreatedAt = DateTime.UtcNow;
-        // game.CreatedBy = user;
-        game.CreatedBy = new User { Id = 1, Username = "an"};
+        game.CreatedBy = user;
         
         game = await gameRepository.CreateAsync(game);
         await unitOfWork.SaveChangesAsync(cancellationToken);

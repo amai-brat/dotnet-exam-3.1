@@ -1,4 +1,4 @@
-import {authServiceUrl, mainServiceUrl} from "../httpClient/httpUrls.jsx";
+import {MAIN_BASE_URL} from "../consts/endpoints";
 
 export const gameService = {
     getRooms,
@@ -6,14 +6,15 @@ export const gameService = {
 };
 
 async function getRooms(page, count){
-    return await fetch(mainServiceUrl + `rooms?page=${page}&count=${count}`,{
+    return await fetch(MAIN_BASE_URL + `/rooms?page=${page}&count=${count}`,{
         method: "GET",
         credentials: "include"
     });
 }
 
+// TODO: fix
 async function createGame(gameSettings){
-    return await fetch(mainServiceUrl + "/game/new", {
+    return await fetch(MAIN_BASE_URL + "/games", {
         method: "POST",
         credentials: "include",
         headers: {
