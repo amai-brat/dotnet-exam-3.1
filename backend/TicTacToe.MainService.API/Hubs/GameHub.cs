@@ -4,6 +4,7 @@ using Generic.Mediator;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using TicTacToe.MainService.Application.Features.Games.MakeGameClosed;
 using TicTacToe.MainService.Application.Features.Games.Queries.GetGame;
 using TicTacToe.MainService.Application.Helpers;
 using TicTacToe.MainService.Application.Services;
@@ -19,9 +20,11 @@ public class GameHub(
     IBus bus,
     IMediator mediator,
     ITicTacToeGame ticTacToeGame,
-    ILogger<GameHub> logger
+    ILogger<GameHub> logger,
+    IHttpClientFactory httpClientFactory
     ) : Hub
 {
+    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("RatingService");
     private readonly TimeSpan _gameRefreshInterval = TimeSpan.FromSeconds(5);
     private readonly ConcurrentDictionary<int, Room> _rooms = rooms;
 
@@ -69,7 +72,7 @@ public class GameHub(
         {
             await SendErrorToCaller(["Game is closed"]);
         }
-
+        
         var room = _rooms.GetOrAdd(gameId, _ => new Room
         {
             Id = gameId,
@@ -77,6 +80,13 @@ public class GameHub(
             MaxRating = result.Value.Game.MaxRating
         });
 
+        var response = await _httpClient.GetFromJsonAsync<RatingDto>("personal");
+        if (response?.Rating > room.MaxRating)
+        {
+            await SendErrorToCaller(["You have more rating than needed"]);
+            return;
+        }
+        
         if (room.Player1 is not null && room.Player2 is not null) return;
         
         
@@ -192,6 +202,11 @@ public class GameHub(
             await Clients.Clients(room.Connections).SendAsync("GameStarted", false);
             await SendRefreshGridToRoom(room);
         }
+
+        if (room.Player1 is null && room.Player2 is null)
+        {
+            await mediator.Send(new MakeGameClosedCommand(room.Id));
+        }
         
         await base.OnDisconnectedAsync(exception);
     }
@@ -261,3 +276,8 @@ public enum Turn
     FirstPlayer = 1,
     SecondPlayer = 2
 }
+
+public class RatingDto
+{
+    public int Rating { get; set; }
+} 

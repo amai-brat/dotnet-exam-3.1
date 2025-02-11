@@ -25,34 +25,72 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27018:27017"
+      - "27017:27017"
     volumes:
       - mongo-data:/data/mongo
 
-#  main-service:
-#    build:
-#      context: .
-#      dockerfile: backend/TicTacToe.MainService.API/Dockerfile
-#    ports:
-#      - "8080:8080"
-#
-#  rating-service:
-#    build:
-#      context: .
-#      dockerfile: backend/TicTacToe.RatingService/Dockerfile
-#    ports:
-#      - "8081:8081"
-#  
-#  auth-service:
-#    build:
-#      context: .
-#      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - rabbitmq
-#      - postgresql
+  main-service:
+    build:
+      context: .
+      dockerfile: backend/TicTacToe.MainService.API/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - RabbitMq:Host="amqp://rabbit:5672"
+      - RabbitMq:Username="user"
+      - RabbitMq:Password="aboba"
+      - Frontend:Url="http://frontend:5173"
+      - Jwt:Issuer="Server"
+      - Jwt:Audience="Client"
+      - Jwt:Key="ASDFsdojfajksdhfjasdkhfasodjifnisdjhfjisadhfjasdhfoijasdhjoifhoasdijfhjiasodhfoojiasdhoifojiasdhoijfiashdofhadsoijf"
+      - RatingService:Url="http://rating:8081"
+    depends_on:
+      - postgresql
+      - rabbitmq
+
+  rating-service:
+    hostname: rating
+    build:
+      context: .
+      dockerfile: backend/TicTacToe.RatingService/Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - Jwt:Issuer="Server"
+      - Jwt:Audience="Client"
+      - Jwt:Key="ASDFsdojfajksdhfjasdkhfasodjifnisdjhfjisadhfjasdhfoijasdhjoifhoasdijfhjiasodhfoojiasdhoifojiasdhoijfiashdofhadsoijf"
+      - RabbitMq:Host="amqp://rabbit:5672"
+      - RabbitMq:Username="user"
+      - RabbitMq:Password="aboba"
+      - Database:ConnectionString="mongodb://mongo:27017"
+      - Database:DatabaseName="RatingDB"
+      - Database:CollectionName="Rating"
+ 
+  auth-service:
+    build:
+      context: .
+      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - Jwt:Issuer="Server"
+      - Jwt:Audience="Client"
+      - Jwt:Key="ASDFsdojfajksdhfjasdkhfasodjifnisdjhfjisadhfjasdhfoijasdhjoifhoasdijfhjiasodhfoojiasdhoifojiasdhoijfiashdofhadsoijf"
+      - RabbitMq:Host="amqp://rabbit:5672"
+      - RabbitMq:Username="user"
+      - RabbitMq:Password="aboba"
+      - Frontend:Url="http://frontend:5173"
+    depends_on:
+      - rabbitmq
+      - postgresql
   
+  frontend:
+    build: 
+      context: ./frontend/ticactoe
+      dockerfile: ./Dockerfile
+    ports:
+      - "5173:5173"
+
 volumes:
   postgresql-data:
   rabbitmq-data:

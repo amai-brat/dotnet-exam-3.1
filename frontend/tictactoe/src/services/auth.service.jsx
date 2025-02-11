@@ -35,6 +35,9 @@ async function register(registerData){
     })
 }
 
-function exit(){
-    
+async function exit(){
+    return await fetch(AUTH_BASE_URL + "/signout", {
+        method: "POST",
+        credentials: "include"
+    });
 }

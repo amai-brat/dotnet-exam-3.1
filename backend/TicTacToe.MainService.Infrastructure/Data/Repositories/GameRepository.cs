@@ -30,4 +30,10 @@ public class GameRepository(AppDbContext dbContext) : IGameRepository
         var entry = await dbContext.Games.AddAsync(game);
         return entry.Entity;
     }
+
+    public async Task DeleteClosedGamesAsync()
+    {
+        var closedGames = await dbContext.Games.Where(x => x.Status == GameStatus.Closed).ToListAsync();
+        dbContext.Games.RemoveRange(closedGames);
+    }
 }

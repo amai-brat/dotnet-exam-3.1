@@ -8,4 +8,5 @@ public interface IGameRepository
     Task<List<Game>> GetGamesOrderedByDateAndStatusAsync(int count, int page);
     Task<Game?> GetGameByIdAsync(int id);
     Task<Game> CreateAsync(Game game);
+    Task DeleteClosedGamesAsync();
 }

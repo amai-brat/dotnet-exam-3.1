@@ -15,7 +15,6 @@ public class Game
 
 public enum GameStatus
 {
-    Created = 0,
-    Started,
+    Started = 0,
     Closed
 }

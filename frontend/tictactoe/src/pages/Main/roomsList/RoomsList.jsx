@@ -17,12 +17,17 @@ const RoomsList = ({ user }) => {
             const response = await gameService.getRooms(page, RoomsPerPage);
             if (response.ok) {
                 const rooms = await response.json();
-                if(rooms.length === 0){
+                if(rooms.games.length === 0){
                     setNoMoreRooms(true);
                 }else{
                     setNoMoreRooms(false);
                 }
-                setRooms(prevRooms => [...prevRooms, ...rooms]);
+                setRooms(prevRooms => 
+                    {
+                        const existingRoomIds = new Set(prevRooms.map(room => room.id));
+                        const newRooms = rooms.games.filter(room => !existingRoomIds.has(room.id));
+                        return [...prevRooms, ...newRooms]
+                    });
             }   
         }catch (err){
             console.error(err);
@@ -32,6 +37,8 @@ const RoomsList = ({ user }) => {
 
     useEffect(() => {
         getRooms().then();
+
+    
     }, [page]);
 
     const loadMoreRooms = (entries) => {

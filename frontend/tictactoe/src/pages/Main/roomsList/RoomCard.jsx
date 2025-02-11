@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom";
 
 const RoomCard = ({ room, userRating }) => {
     const navigate = useNavigate();
-    const canJoin = userRating <= room.ratingUp && room.status === "active";
+    const canJoin = room.status === 0;
     const handleJoin = () => {
         navigate(`/room/${room.id}`);
     }
@@ -11,11 +11,10 @@ const RoomCard = ({ room, userRating }) => {
     return (
         <div className="room-card">
             <div className="room-card-info">
-                <h3>Игра: {room.gameMaster}</h3>
-                <label>Рейтинг: {room.ratingUp}</label>
-                <label>Статус: {room.status}</label>
-                <label>Игроков: {room.gamersCount}</label>
-                <label>Зрителей: {room.viewersCount}</label>
+                <h3>Игра: {room.createdBy.username}</h3>
+                <label>Рейтинг: {room.maxRating}</label>
+                <label>Статус: {room.status == 0 ? "Started" : "Closed"}</label>
+                <label>Создано: {new Date(room.createdAt).toLocaleString()}</label>
             </div>
             <div className="room-card-control">
                 {canJoin && <button onClick={handleJoin}>Присоединиться</button>}

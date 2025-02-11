@@ -22,6 +22,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddMassTransitRabbitMq(builder.Configuration);
 builder.Services.AddKeyedSingleton<ConcurrentDictionary<int, Room>>(KeyedServices.GameRooms);
+builder.Services.AddHttpClient("Rating", httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection("RatingService")["Url"]
+                                     ?? throw new InvalidOperationException());
+});
 
 
 var app = builder.Build();

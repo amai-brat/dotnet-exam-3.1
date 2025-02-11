@@ -9,6 +9,8 @@ public static class AddMasstransitExtension
     {
         serviceCollection.AddMassTransit(x =>
         {
+            // x.SetKebabCaseEndpointNameFormatter();
+
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
@@ -18,6 +20,8 @@ public static class AddMasstransitExtension
                     h.Password(options.Password);
                 });
             });
+            
+            
         });
 
         return serviceCollection;

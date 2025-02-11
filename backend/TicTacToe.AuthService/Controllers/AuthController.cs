@@ -1,4 +1,5 @@
 using Generic.Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicTacToe.AuthService.Extensions;
 using TicTacToe.AuthService.UseCases.Users.Commands.LoginUser;
@@ -29,6 +30,20 @@ public class AuthController(IMediator mediator): ControllerBase
             return this.ErrorResult(result.Errors.First());
         
         SetAuthCookie(result.Value);
+        return Ok();
+    }
+    
+    [HttpPost("signout")]
+    public IActionResult SignoutAsync()
+    {
+        HttpContext.Response.Cookies.Append("Jwt", string.Empty, new CookieOptions
+        {
+            HttpOnly = false,
+            Secure = true,
+            SameSite = SameSiteMode.None,
+            Expires = DateTimeOffset.UtcNow.AddHours(-2)
+        });
+        
         return Ok();
     }
     

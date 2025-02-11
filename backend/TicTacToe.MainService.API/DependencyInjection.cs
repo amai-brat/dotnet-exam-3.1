@@ -16,7 +16,7 @@ public static class DependencyInjection
         
         services.AddMassTransit(conf =>
         {
-            conf.SetKebabCaseEndpointNameFormatter();
+            // conf.SetKebabCaseEndpointNameFormatter();
             
             conf.AddConsumer<UserRegisteredConsumer>();
             

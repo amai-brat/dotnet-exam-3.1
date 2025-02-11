@@ -3,7 +3,7 @@ import {useState} from "react";
 import {ratingService} from "../../../services/rating.service.jsx";
 import Modal from "../../../components/modal/Modal.jsx";
 
-const RatingBlock = ({ user }) => {
+const RatingBlock = ({ rating }) => {
     const [showModal, setShowModal] = useState(false);
     const [globalRating, setGlobalRating] = useState([]);
 
@@ -28,9 +28,9 @@ const RatingBlock = ({ user }) => {
 
     return (
         <div className="rating-block">
-            {user ? (
+            {rating || rating == 0 ? (
                 <div className="rating-block-personal">
-                    <h3>Личный рейтинг: {user.rating}</h3>
+                    <h3>Личный рейтинг: {rating}</h3>
                 </div>
             ) : null}
             <div className="rating-block-rate">

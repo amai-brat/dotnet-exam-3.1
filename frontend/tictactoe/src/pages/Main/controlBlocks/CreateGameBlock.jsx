@@ -15,8 +15,8 @@ const CreateGameBlock = ({ user }) => {
         try {
             const response = await gameService.createGame(gameSettings);
             if (response.ok) {
-                const roomId = await response.json();
-                navigate(`/game/${roomId}`);
+                const game = await response.json();
+                navigate(`/room/${game.game.id}`);
             }else if(response.status === 401){
                 navigate(`/login`);
             }

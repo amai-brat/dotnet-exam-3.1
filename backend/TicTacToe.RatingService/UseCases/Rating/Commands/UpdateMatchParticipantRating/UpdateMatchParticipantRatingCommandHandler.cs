@@ -20,7 +20,8 @@ public class UpdateMatchParticipantRatingCommandHandler(
 
         winner.Score += 3;
         looser.Score -= 1;
-
+        if (looser.Score < 0) looser.Score = 0;
+        
         await ratingRepository.UpdateManyAsync([winner, looser]);
         
         return Result.Ok();

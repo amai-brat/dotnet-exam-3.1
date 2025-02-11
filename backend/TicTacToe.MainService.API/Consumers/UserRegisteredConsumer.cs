@@ -8,9 +8,9 @@ namespace TicTacToe.MainService.Consumers;
 
 public class UserRegisteredConsumer(
     IMediator mediator,
-    IMapper mapper) : IConsumer<UserRegistered>
+    IMapper mapper) : IConsumer<UserRegisteredMain>
 {
-    public async Task Consume(ConsumeContext<UserRegistered> context)
+    public async Task Consume(ConsumeContext<UserRegisteredMain> context)
     {
         var command = mapper.Map<CreateUserCommand>(context.Message);
         await mediator.Send(command);

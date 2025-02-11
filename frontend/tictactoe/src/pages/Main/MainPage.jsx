@@ -9,7 +9,8 @@ import "./styles/MainPage.css";
 
 const MainPage = () => {
     const [user, setUser] = useState(undefined);
-    
+    const [rating, setRating] = useState(undefined);
+
     const getPersonalInfo = async () => {
         try {
             const response = await userService.getPersonalInfo();
@@ -29,13 +30,13 @@ const MainPage = () => {
             const response = await ratingService.getPersonalRating();
             if (response.ok) {
                 const rating = await response.json();
-                setUser({...user, rating: rating.rating});
+                setRating(rating.rating)
                 return;
             }
         }catch(err){
             console.error(err);
         }
-        setUser({...user, rating: null});
+        setRating(null);
     }
 
     useEffect(() => {
@@ -49,8 +50,8 @@ const MainPage = () => {
     return (
         <div id="room-page">
             <div id="room-page-control-block">
-                <PersonalInfoBlock user={user}/>
-                <RatingBlock user={user}/>
+                <PersonalInfoBlock user={user} setUser={setUser}/>
+                <RatingBlock rating={rating}/>
                 <CreateGameBlock user={user}/>
             </div>
             <div id="room-page-rooms">

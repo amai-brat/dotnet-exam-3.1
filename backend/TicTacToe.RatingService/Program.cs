@@ -7,6 +7,8 @@ using TicTacToe.RatingService.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

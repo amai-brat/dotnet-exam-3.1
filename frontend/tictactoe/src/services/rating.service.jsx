@@ -12,8 +12,8 @@ async function getPersonalRating(){
     });
 }
 
-async function getGlobalRating(gameSettings){
-    return await fetch(RATING_BASE_URLServiceUrl + "/global", {
+async function getGlobalRating(){
+    return await fetch(RATING_BASE_URL + "/global", {
         method: "GET",
         credentials: "include"
     });

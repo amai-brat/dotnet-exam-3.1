@@ -18,7 +18,7 @@ const PersonalInfoBlock = ({ user, setUser }) => {
         <div className="personal-info-block">
             {user ? (
                 <div className="personal-info-block-personal">
-                    <h3>{user.name}</h3>
+                    <h3>{user.username}</h3>
                     <button onClick={handleExit}>Выйти</button>
                 </div>
             ) : (

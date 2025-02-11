@@ -12,6 +12,7 @@ public static class AddMasstransitExtension
         {
             x.AddConsumer<MatchEndedConsumer>();
             x.AddConsumer<UserRegisteredConsumer>();
+            // x.SetKebabCaseEndpointNameFormatter();
             
             x.UsingRabbitMq((context, cfg) =>
             {

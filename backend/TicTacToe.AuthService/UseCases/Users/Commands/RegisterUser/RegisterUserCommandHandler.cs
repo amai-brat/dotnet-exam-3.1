@@ -35,8 +35,10 @@ public class RegisterUserCommandHandler(
         await userRepository.InsertEntityAsync(user);
 
         var contract = new UserRegistered(){Id = user.Id, Username = user.Login};
+        var contractMain = new UserRegisteredMain() { Id = user.Id, Username = user.Login };
         
         await bus.Publish(contract, cancellationToken);
+        await bus.Publish(contractMain, cancellationToken);
         
         return Result.Ok();
     }
