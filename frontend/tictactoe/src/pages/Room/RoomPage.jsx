@@ -20,7 +20,7 @@ const RoomPage = () => {
         }catch(err){
             console.error(err);
         }
-        setUser({name: "DIMADOMA", rating: 10});
+        setUser(null);
         return false;
     }
     

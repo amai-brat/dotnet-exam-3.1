@@ -5,44 +5,6 @@ import {gameService} from "../../../services/game.service.jsx";
 
 const RoomsPerPage = 5;
 
-const testRooms = [
-    {
-        ratingUp: 1500,
-        gameMaster: "PlayerOne",
-        status: "active",
-        gamersCount: 5,
-        viewersCount: 2
-    },
-    {
-        ratingUp: 1200,
-        gameMaster: "PlayerTwo",
-        status: "active",
-        gamersCount: 3,
-        viewersCount: 1
-    },
-    {
-        ratingUp: 1800,
-        gameMaster: "PlayerThree",
-        status: "inactive",
-        gamersCount: 0,
-        viewersCount: 0
-    },
-    {
-        ratingUp: 1600,
-        gameMaster: "PlayerFour",
-        status: "active",
-        gamersCount: 4,
-        viewersCount: 3
-    },
-    {
-        ratingUp: 1400,
-        gameMaster: "PlayerFive",
-        status: "active",
-        gamersCount: 2,
-        viewersCount: 1
-    }
-];
-
 const RoomsList = ({ user }) => {
     const [rooms, setRooms] = useState([]);
     const [page, setPage] = useState(1);
@@ -64,10 +26,6 @@ const RoomsList = ({ user }) => {
             }   
         }catch (err){
             console.error(err);
-        }
-        setRooms(prevRooms => [...prevRooms, ...testRooms])
-        if(page === 3){
-            setNoMoreRooms(true);
         }
         setLoading(false);
     }

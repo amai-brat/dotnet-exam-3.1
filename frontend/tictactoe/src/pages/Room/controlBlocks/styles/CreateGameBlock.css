@@ -13,6 +13,7 @@
     align-items: center;
 }
 
+.create-game-block-modal-control button,
 .create-game-block-control button {
     width: 200px;
     padding: 6px;
@@ -38,16 +39,11 @@
     justify-content: flex-end;
 }
 
-.create-game-block-modal-control button{
-    width: 200px;
-    padding: 6px;
-    background-color: dodgerblue;
-    border-color: dodgerblue;
-    border-radius: 4px;
-    margin: 1px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+.create-game-block-modal-control button:hover,
+.create-game-block-control button:hover{
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+    cursor: pointer;
 }
 
 .create-game-block-modal-settings{

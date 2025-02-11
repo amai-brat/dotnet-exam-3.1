@@ -49,6 +49,12 @@ tr:hover {
     font-weight: bold;
 }
 
+.rating-block-rate button:hover{
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+    cursor: pointer;
+}
+
 .rating-block-personal{
     display: flex;
     flex-direction: row;

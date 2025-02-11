@@ -5,6 +5,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0 20px 20px 20px;
+    border-radius: 15px;
+    background: ghostwhite;
 }
 
 .log-reg-form-message{
@@ -34,6 +37,12 @@
     font-size: 16px;
     font-weight: bold;
     border-radius: 4px;
+}
+
+.log-reg-form-inputs-btn:hover{
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+    cursor: pointer;
 }
 
 .log-reg-form-message-success{

@@ -36,3 +36,9 @@
     font-size: 16px;
     font-weight: bold;
 }
+
+.room-card-control button:hover{
+    background-color: seagreen;
+    border-color: seagreen;
+    cursor: pointer;
+}
