@@ -29,7 +29,7 @@ const RoomPage = () => {
             const response = await ratingService.getPersonalRating();
             if (response.ok) {
                 const rating = await response.json();
-                setUser({...user, rating: rating});
+                setUser({...user, rating: rating.rating});
                 return;
             }
         }catch(err){

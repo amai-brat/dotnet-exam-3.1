@@ -1,5 +1,7 @@
 using System.Reflection;
 using Generic.Mediator.DependencyInjectionExtensions;
+using TicTacToe.RatingService.Abstractions.Consumers;
+using TicTacToe.RatingService.Consumers;
 using TicTacToe.RatingService.Extensions;
 using TicTacToe.RatingService.Options;
 
@@ -14,13 +16,15 @@ builder.Services.AddJwtAuthentication(
     builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!);
 builder.Services.AddAuthorization();
 
-builder.Services.AddConsumers();
 builder.Services.AddMasstransitRabbitMq(
     builder.Configuration.GetSection("RabbitMq").Get<RabbitMqOptions>()!);
 
 builder.Services.AddDbContext(builder.Configuration);
 
 builder.Services.AddCors("Frontend", "http://localhost:5173");
+
+builder.Services.AddScoped<IMatchEndedConsumer, MatchEndedConsumer>();
+builder.Services.AddScoped<IUserRegisteredConsumer, UserRegisteredConsumer>();
 
 builder.Services.AddMediator(Assembly.GetExecutingAssembly());
 

@@ -19,7 +19,7 @@ public class RatingController(IMediator mediator): ControllerBase
         
         return result.IsFailed ? 
             this.ErrorResult(result.Errors.First()) : 
-            Ok();
+            Ok(result.Value);
     }
     
     [HttpGet("personal")]
@@ -32,6 +32,6 @@ public class RatingController(IMediator mediator): ControllerBase
         
         return result.IsFailed ? 
             this.ErrorResult(result.Errors.First()) : 
-            Ok();
+            Ok(result.Value);
     }
 }

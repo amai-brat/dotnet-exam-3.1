@@ -12,7 +12,8 @@ const RatingBlock = ({ user }) => {
             const response = await ratingService.getGlobalRating();
             if (response.ok) {
                 const rating = await response.json();
-                setGlobalRating(rating);
+                setGlobalRating(rating.ratings);
+                return;
             }   
         }catch(err){
             console.error(err);
