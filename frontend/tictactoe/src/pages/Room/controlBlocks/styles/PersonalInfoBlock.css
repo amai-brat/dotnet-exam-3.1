@@ -1,0 +1,57 @@
+.personal-info-block {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.personal-info-block-log-reg{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.personal-info-block-log-reg button{
+    width: 200px;
+    padding: 6px;
+    background-color: dodgerblue;
+    border-color: dodgerblue;
+    border-radius: 4px;
+    margin: 1px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.personal-info-block-log-reg button:hover{
+    background-color: deepskyblue;
+    border-color: deepskyblue;
+    cursor: pointer;
+}
+
+.personal-info-block-personal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.personal-info-block-personal button {
+    width: 80px;
+    height: 40px;
+    padding: 6px;
+    background-color: firebrick;
+    border-color: firebrick;
+    border-radius: 4px;
+    margin: 1px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.personal-info-block-personal button:hover{
+    background-color: crimson;
+    border-color: crimson;
+    cursor: pointer;
+}

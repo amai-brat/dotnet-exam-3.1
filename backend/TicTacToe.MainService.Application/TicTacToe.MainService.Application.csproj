@@ -18,4 +18,16 @@
       <ProjectReference Include="..\TicTacToe.Shared.Contracts\TicTacToe.Shared.Contracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
+      <PackageReference Include="FluentResults" Version="3.16.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Generic.Mediator\Generic.Mediator.csproj" />
+      <ProjectReference Include="..\TicTacToe.MainService.Domain\TicTacToe.MainService.Domain.csproj" />
+      <ProjectReference Include="..\TicTacToe.Shared.Contracts\TicTacToe.Shared.Contracts.csproj" />
+    </ItemGroup>
+
 </Project>

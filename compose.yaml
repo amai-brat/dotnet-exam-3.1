@@ -10,6 +10,8 @@ services:
   
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    hostname: rabbit
+    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -18,10 +20,15 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
- 
-volumes:
-  postgresql-data:
-  rabbitmq-data:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/mongo
+
 #  main-service:
 #    build:
 #      context: .
@@ -42,5 +49,11 @@ volumes:
 #      dockerfile: backend/TicTacToe.AuthService.API/Dockerfile
 #    ports:
 #      - "8082:8082"
+#    depends_on:
+#      - rabbitmq
+#      - postgresql
   
-
+volumes:
+  postgresql-data:
+  rabbitmq-data:
+  mongo-data:
