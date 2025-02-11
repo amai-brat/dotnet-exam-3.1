@@ -9,7 +9,9 @@ export const authService = {
 async function login(loginData){
     return await fetch(authServiceUrl + "login", {
         method: "POST",
+        credentials: "include",
         headers: {
+            "Accept": "application/json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({

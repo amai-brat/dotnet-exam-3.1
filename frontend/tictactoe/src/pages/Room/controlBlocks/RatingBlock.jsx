@@ -47,7 +47,7 @@ const RatingBlock = ({ user }) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {globalRating.map((item, index) => (
+                            {globalRating && globalRating.map((item, index) => (
                                 <tr key={index}>
                                     <td>{item.username}</td>
                                     <td>{item.rating}</td>

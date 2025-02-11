@@ -10,12 +10,8 @@ public static class AddJwtAuthenticationExtension
     public static IServiceCollection AddJwtAuthentication(this IServiceCollection serviceCollection, JwtOptions jwtOptions)
     {
         serviceCollection
-            .AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddCookie()
             .AddJwtBearer(options =>
             {
                 options.SaveToken = true;

@@ -59,12 +59,16 @@ const RoomsList = ({ user }) => {
 
     return (
         <div className="rooms-list">
-            {rooms.map((room, index) => (
-                <RoomCard key={index} room={room} userRating={user?.rating} />
-            ))}
-            {loading && <label className="rooms-list-info-label">Загрузка...</label>}
-            {noMoreRooms && <label className="rooms-list-info-label">Комнат больше нет</label>}
-            <div ref={observerRef}/>
+            {user && 
+                <>
+                    {rooms.map((room, index) => (
+                        <RoomCard key={index} room={room} userRating={user?.rating} />
+                    ))}
+                    {loading && <label className="rooms-list-info-label">Загрузка...</label>}
+                    {noMoreRooms && <label className="rooms-list-info-label">Комнат больше нет</label>}
+                    <div ref={observerRef}/>       
+                </>
+            }
         </div>
     );
 }

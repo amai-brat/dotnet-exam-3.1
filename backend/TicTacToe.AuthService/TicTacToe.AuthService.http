@@ -1,6 +1,0 @@
-@TicTacToe.AuthService_HostAddress = http://localhost:5116
-
-GET {{TicTacToe.AuthService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

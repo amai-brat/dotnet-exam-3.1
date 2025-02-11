@@ -1,4 +1,5 @@
 using MassTransit;
+using TicTacToe.RatingService.Consumers;
 using TicTacToe.RatingService.Options;
 
 namespace TicTacToe.RatingService.Extensions;
@@ -9,6 +10,9 @@ public static class AddMasstransitExtension
     {
         serviceCollection.AddMassTransit(x =>
         {
+            x.AddConsumer<MatchEndedConsumer>();
+            x.AddConsumer<UserRegisteredConsumer>();
+            
             x.UsingRabbitMq((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
