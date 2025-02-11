@@ -6,7 +6,7 @@ export const gameService = {
 };
 
 async function getRooms(page, count){
-    return await fetch(MAIN_BASE_URL + `/rooms?page=${page}&count=${count}`,{
+    return await fetch(MAIN_BASE_URL + `/games?page=${page}&count=${count}`,{
         method: "GET",
         credentials: "include"
     });
