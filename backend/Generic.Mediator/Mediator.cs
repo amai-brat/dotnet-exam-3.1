@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Linq.Expressions;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -58,7 +59,7 @@ public class Mediator : IMediator
         }
     }
 
-    private record HandlerMeta(object Handler, MethodInfo HandleMethod, PropertyInfo ServiceProviderProperty);
+    private record HandlerMeta(Delegate HandlerCtor, MethodInfo HandleMethod, PropertyInfo ServiceProviderProperty);
     
     private static readonly ConcurrentDictionary<Type, HandlerMeta> Handlers = new();
     private readonly IServiceProvider _serviceProvider;
@@ -71,18 +72,19 @@ public class Mediator : IMediator
     public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         var reqHandlerType = typeof(RequestHandler<,>).MakeGenericType(request.GetType(), typeof(TResponse));
-        var (reqHandler, method, prop) = Handlers.GetOrAdd(reqHandlerType, type =>
+        var (ctor, method, prop) = Handlers.GetOrAdd(reqHandlerType, type =>
         {
-            var reqHandler = Activator.CreateInstance(type)!;
+            var ctor = Expression.Lambda(Expression.New(type)).Compile();
             var method = type.GetMethod("Handle", BindingFlags.Public | BindingFlags.Instance)!;
             var prop = reqHandlerType.GetProperty("ServiceProvider")!;
             
-            return new HandlerMeta(reqHandler, method, prop);
+            return new HandlerMeta(ctor, method, prop);
         });
-        
+
+        var reqHandler = ctor.DynamicInvoke();
         prop.SetValue(reqHandler, _serviceProvider);
         
-        var task = (Task<TResponse>)method.Invoke(reqHandler, new object[] { request, cancellationToken })!;
+        var task = (Task<TResponse>)method.Invoke(reqHandler, [request, cancellationToken])!;
         return await task;
     }
 
